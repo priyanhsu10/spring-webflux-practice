@@ -1,4 +1,4 @@
-package com.pro.webflux_playgroud;
+package com.pro.playground;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
