@@ -3,6 +3,7 @@ package com.pro.playground.sec03.controller;
 import com.pro.playground.sec03.dto.CustomerDto;
 import com.pro.playground.sec03.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -51,7 +52,7 @@ public class CustomerController {
     }
 
     @GetMapping("/paginated")
-    public Mono<List<CustomerDto>> getCustomers(@RequestParam(value = "page", defaultValue = "1")
+    public Mono<Page<CustomerDto>> getCustomers(@RequestParam(value = "page", defaultValue = "1")
                                                 int page,
                                                 @RequestParam(value = "count", defaultValue = "3")
                                                 int count) {

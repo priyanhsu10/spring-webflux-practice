@@ -5,6 +5,8 @@ import com.pro.playground.sec03.dto.CustomerDto;
 import com.pro.playground.sec03.mapper.EntityDtoMapper;
 import com.pro.playground.sec03.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -50,10 +52,13 @@ public class CustomerService {
         return this.customerRepository.deleteCustomerById(id);
     }
 
-    public Mono<List<CustomerDto>> getCustomerBy(int page, int cout) {
-        return this.customerRepository.findBy(PageRequest.of(page - 1, cout))
+    public Mono<Page<CustomerDto>> getCustomerBy(int page, int cout) {
+        var pageRequest=PageRequest.of(page - 1, cout);PageRequest.of(page - 1, cout);
+        return this.customerRepository.findBy(pageRequest)
                 .map(EntityDtoMapper::toDto)
-                .collectList();
+                .collectList()
+                .zipWith(this.customerRepository.count())
+                .map(t->new PageImpl<>(t.getT1(),pageRequest,t.getT2()));
     }
 
 }
