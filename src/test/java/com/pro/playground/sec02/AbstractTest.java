@@ -1,4 +1,4 @@
-package com.pro.playground.test.sec02;
+package com.pro.playground.sec02;
 
 import org.springframework.boot.test.context.SpringBootTest;
 

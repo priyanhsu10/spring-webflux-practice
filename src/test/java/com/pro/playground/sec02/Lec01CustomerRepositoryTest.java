@@ -1,4 +1,4 @@
-package com.pro.playground.test.sec02;
+package com.pro.playground.sec02;
 
 import com.pro.playground.sec02.entity.Customer;
 import com.pro.playground.sec02.repository.CustomerRepository;
