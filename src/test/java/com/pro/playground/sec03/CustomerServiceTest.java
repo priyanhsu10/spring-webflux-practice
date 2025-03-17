@@ -41,4 +41,18 @@ public class CustomerServiceTest {
 
 
     }
+    @Test
+    public  void  getCustomerByid(){
+        this.client.get()
+                .uri("/customer/1")
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody()
+                .consumeWith(x->log.info("{}",x))
+                .jsonPath("$.id").isEqualTo(1)
+                .jsonPath("$.name").isEqualTo("sam")
+                .jsonPath("$.email").isEqualTo("sam@gmail.com");
+
+
+    }
 }
