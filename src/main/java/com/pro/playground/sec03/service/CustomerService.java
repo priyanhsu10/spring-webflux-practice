@@ -5,9 +5,12 @@ import com.pro.playground.sec03.dto.CustomerDto;
 import com.pro.playground.sec03.mapper.EntityDtoMapper;
 import com.pro.playground.sec03.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -42,15 +45,15 @@ public class CustomerService {
 
     }
 
-    public Mono<Void> deleteCustomer(int id) {
-        return this.customerRepository.findById(id)
-                .handle((x, sink) -> {
-                    if (x == null) {
-                        sink.complete();
-                    }
-                    this.customerRepository.delete(x);
-                    sink.complete();
-                });
+    public Mono<Boolean> deleteCustomer(int id) {
 
+        return this.customerRepository.deleteCustomerById(id);
     }
+
+    public Mono<List<CustomerDto>> getCustomerBy(int page, int cout) {
+        return this.customerRepository.findBy(PageRequest.of(page - 1, cout))
+                .map(EntityDtoMapper::toDto)
+                .collectList();
+    }
+
 }
