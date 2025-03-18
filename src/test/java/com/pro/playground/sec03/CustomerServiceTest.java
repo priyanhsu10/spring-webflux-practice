@@ -84,4 +84,30 @@ public class CustomerServiceTest {
                 .jsonPath("$.name").isEqualTo("priyanshu")
                 .jsonPath("$.email").isEqualTo("priyanshu@gmail.com");
     }
+
+    @Test
+    public  void notFoundTest(){
+
+        this.client
+                .get()
+                .uri("/customer/11")
+                .exchange()
+                .expectStatus().is4xxClientError()
+                .expectBody().isEmpty();
+        var dto=new CustomerDto(null,"test","test@gmail.com");
+        this.client
+                .put()
+                .uri("/customer/11")
+                .bodyValue(dto)
+                .exchange()
+                .expectStatus().is4xxClientError()
+                .expectBody().isEmpty();
+
+        this.client.delete()
+                .uri("/customer/11")
+                .exchange()
+                .expectStatus().is4xxClientError()
+                .expectBody().isEmpty();
+
+    }
 }
