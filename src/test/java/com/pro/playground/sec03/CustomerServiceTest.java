@@ -55,4 +55,33 @@ public class CustomerServiceTest {
 
 
     }
+    @Test
+    public  void createCustomer(){
+        var dot=new CustomerDto(null,"test","test@gmail.com");
+        this.client.post()
+                .uri("/customer")
+                .bodyValue(dot)
+                .exchange()
+
+                .expectStatus().is2xxSuccessful()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(11)
+                .jsonPath("$.name").isEqualTo("test")
+                .jsonPath("$.email").isEqualTo("test@gmail.com");
+
+    }
+    @Test
+    public  void updateCustomer(){
+        var dto=new CustomerDto(null,"priyanshu","priyanshu@gmail.com");
+        this.client
+                .put()
+                .uri("/customer/1")
+                .bodyValue(dto)
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(1)
+                .jsonPath("$.name").isEqualTo("priyanshu")
+                .jsonPath("$.email").isEqualTo("priyanshu@gmail.com");
+    }
 }
