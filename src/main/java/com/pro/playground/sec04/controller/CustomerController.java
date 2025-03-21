@@ -38,7 +38,8 @@ public class CustomerController {
     public Mono<CustomerDto> updateCustomer(@RequestBody Mono<CustomerDto> customerDtoMono, @PathVariable int id) {
         return customerDtoMono.transform(RequestValidator.validate)
                 .as(x -> this.customerService.updateCustomer(x,id))
-                .switchIfEmpty(ApplicationExceptions.customerNotFound(id));
+                .switchIfEmpty(ApplicationExceptions.customerNotFound(id))
+                .log();
     }
 
     @DeleteMapping("/{id}")
